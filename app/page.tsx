@@ -1,4 +1,3 @@
-import Nav from './components/nav'
 import ExerciseDashboard from './components/dashboard';
 
 export default async function Home() {
