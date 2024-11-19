@@ -13,8 +13,25 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+
+const navlinks = [
+  { name: "Dashboard", path: "/" },
+  { name: "Workout Plan", path: "/workouts" },
+  { name: "Exercies", path: "/Exercies" },
+  { name: "Progress Tracker", path: "/progress" },
+  { name: "Settings", path: "/settings" },
+];
+
+const Navigation = () => {
+  return (
+    navlinks.map((a, b) => (
+      <a href={a.path} className="text-lg font-medium hover:text-primary" key={b}>
+        {a.name}
+      </a>
+    ))
+  )
+}
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = React.useState(false)
@@ -29,9 +46,8 @@ export default function Navbar() {
 
   return (
     <motion.nav
-      className={`fixed top-0 left-0 right-0 z-50 px-4 py-3 transition-all duration-300 ${
-        isScrolled ? "bg-background/80 backdrop-blur-md shadow-md" : "bg-transparent"
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 px-4 py-3 transition-all duration-200 ${isScrolled ? "bg-background/80 backdrop-blur-md shadow-md" : "bg-transparent"
+        }`}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ type: "spring", stiffness: 100, damping: 20 }}
@@ -47,62 +63,16 @@ export default function Navbar() {
             </SheetTrigger>
             <SheetContent side="left">
               <nav className="flex flex-col space-y-4">
-                <a href="#" className="text-lg font-medium hover:text-primary">
-                  Home
-                </a>
-                <a href="#" className="text-lg font-medium hover:text-primary">
-                  About
-                </a>
-                <a href="#" className="text-lg font-medium hover:text-primary">
-                  Services
-                </a>
-                <a href="#" className="text-lg font-medium hover:text-primary">
-                  Contact
-                </a>
+                <Navigation />
               </nav>
             </SheetContent>
           </Sheet>
-          <a href="/" className="text-2xl font-bold uppercase">caveman</a>
+          <a href="/" className="text-2xl font-bold uppercase italic">caveman</a>
         </div>
-        <nav className="hidden md:flex items-center space-x-6 text-gray-300">
-          <a
-            href="#"
-            className="text-sm font-medium hover:text-primary transition-colors relative group"
-          >
-            Dashboard 
-            <span className="absolute left-0 right-0 bottom-0 h-0.5 bg-primary transform scale-x-0 group-hover:scale-x-100 transition-transform" />
-          </a>
-          <a
-            href="#"
-            className="text-sm font-medium hover:text-primary transition-colors relative group"
-          >
-            Workout Plan
-            <span className="absolute left-0 right-0 bottom-0 h-0.5 bg-primary transform scale-x-0 group-hover:scale-x-100 transition-transform" />
-          </a>
-          <a
-            href="#"
-            className="text-sm font-medium hover:text-primary transition-colors relative group"
-          >
-            Exercies
-            <span className="absolute left-0 right-0 bottom-0 h-0.5 bg-primary transform scale-x-0 group-hover:scale-x-100 transition-transform" />
-          </a>
-          <a
-            href="#"
-            className="text-sm font-medium hover:text-primary transition-colors relative group"
-          >
-            Statistics
-            <span className="absolute left-0 right-0 bottom-0 h-0.5 bg-primary transform scale-x-0 group-hover:scale-x-100 transition-transform" />
-          </a>
+        <nav className="hidden md:flex items-center space-x-6">
+          <Navigation />
         </nav>
         <div className="flex items-center space-x-4">
-          <div className="hidden md:block relative">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Search..."
-              className="pl-8 w-[200px] bg-background/50 focus:bg-background transition-colors"
-            />
-          </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon">
