@@ -11,6 +11,11 @@ const weeklyWorkoutData = [
   { week: "Week 4", duration: 200 },
   { week: "Week 5", duration: 270 },
   { week: "Week 6", duration: 300 },
+  { week: "Week 7", duration: 100 },
+  { week: "Week 8", duration: 156 },
+  { week: "Week 9", duration: 400 },
+  { week: "Week 10", duration: 359 },
+  { week: "Week 11", duration: 300 },
 ]
 
 // Sample data for exercise progress
@@ -42,22 +47,22 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 
 export default function ExerciseDashboard() {
   return (
-    <div className="container mx-auto p-4 space-y-6 mt-[75px]">
-      <div className="grid md:grid-cols-2 gap-6">
+    <div className="container mx-auto p-4 space-y-6 mt-[75px] text-[10px] md:text-[14px]">
+      <div className="grid md:grid-cols-1 gap-6">
         <Card>
           <CardHeader>
             <CardTitle>Weekly Workout Duration</CardTitle>
             <CardDescription>Total exercise time per week (in minutes)</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="h-[300px]">
+            <div className="h-[200px]">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={weeklyWorkoutData}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="week" />
-                  <YAxis />
+                  <YAxis/>
                   <Tooltip content={<CustomTooltip />} />
-                  <Bar dataKey="duration" fill="hsl(var(--primary))" />
+                  <Bar dataKey="duration" fill="hsl(var(--primary))" radius={5} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -70,10 +75,10 @@ export default function ExerciseDashboard() {
             <CardDescription>Number of repetitions/duration over time</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="h-[300px]">
+            <div className="h-[200px]">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={exerciseProgressData}>
-                  <CartesianGrid strokeDasharray="3 3" />
+                  <CartesianGrid strokeDasharray="1 0 0 1" />
                   <XAxis dataKey="date" />
                   <YAxis />
                   <Tooltip content={<CustomTooltip />} />
@@ -81,6 +86,7 @@ export default function ExerciseDashboard() {
                   <Line type="monotone" dataKey="Push-ups" stroke="hsl(var(--primary))" />
                   <Line type="monotone" dataKey="Squats" stroke="hsl(var(--secondary))" />
                   <Line type="monotone" dataKey="Plank" stroke="hsl(var(--accent))" />
+                  <Line type="monotone" dataKey="Deadlift" stroke="hsl(var(--accent))" />
                 </LineChart>
               </ResponsiveContainer>
             </div>

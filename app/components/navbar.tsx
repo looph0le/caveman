@@ -26,7 +26,7 @@ const navlinks = [
 const Navigation = () => {
   return (
     navlinks.map((a, b) => (
-      <a href={a.path} className="text-lg font-medium hover:text-primary" key={b}>
+      <a href={a.path} className="text-sm font-medium hover:text-primary" key={b}>
         {a.name}
       </a>
     ))
