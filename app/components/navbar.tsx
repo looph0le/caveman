@@ -15,8 +15,6 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { signOut } from "next-auth/react"
-import { getServerSession } from "next-auth"
-import { getClientSession } from "next-auth"
 
 const navlinks = [
   { name: "Dashboard", path: "/" },

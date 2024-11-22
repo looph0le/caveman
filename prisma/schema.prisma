@@ -13,10 +13,12 @@ datasource db {
   url      = env("POSTGRES_URL")
 }
 
-model Post {
-  id        String   @id @default(cuid())
-  title     String   @db.VarChar(255)       // will generate VARCHAR
-  content   String                          // will generate TEXT
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model User {
+  id            String   @id @default(cuid())
+  name          String?
+  email         String   @unique
+  image         String?
+  emailVerified DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
