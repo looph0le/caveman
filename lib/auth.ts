@@ -13,6 +13,7 @@ export const authConfig: NextAuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     })
   ],
+  secret: process.env.AUTH_SECRET
 };
 
 export async function loginIsRequiredServer() {
