@@ -47,7 +47,7 @@ model User {
   id            String    @id @default(cuid())
   name          String?
   email         String?   @unique
-  emailVerified DateTime? @map("email_verified")
+  email_verified DateTime?
   image         String?
   role          String?
   accounts      Account[]

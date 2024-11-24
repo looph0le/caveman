@@ -16,7 +16,7 @@ export const authConfig: NextAuthOptions = {
           id: profile.sub,
           name: profile.login,
           email: profile.email,
-          email_varified: profile.email_verified,
+          email_verified: profile.email_verified,
           image: profile.picture,
           role: profile.role ?? "user"
         };
@@ -32,6 +32,7 @@ export const authConfig: NextAuthOptions = {
     }
   },
   secret: process.env.NEXTAUTH_SECRET,
+  debug: true
 };
 
 export async function loginIsRequiredServer() {

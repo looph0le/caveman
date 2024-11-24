@@ -47,6 +47,7 @@ export default function Navbar() {
 
   // Session Information
   const session = useSession();
+  console.log(session);
 
   return (
     <motion.nav
@@ -87,9 +88,8 @@ export default function Navbar() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>{session ? session.data?.user?.name : 'My Profile'}</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              {session.data?.user.role == 'admin' ? <a href="/admin"><DropdownMenuItem>Admin Dashboard</DropdownMenuItem></a> : null}
+              <DropdownMenuLabel>{session.data?.user?.name ? session.data?.user?.name : session.data?.user.email}</DropdownMenuLabel>
+              {session.data?.user.role == 'admin' ?<a href="/admin"><DropdownMenuItem>Admin Dashboard</DropdownMenuItem></a> : null}
               <DropdownMenuSeparator />
               <DropdownMenuItem>Profile</DropdownMenuItem>
               <DropdownMenuItem>Settings</DropdownMenuItem>
