@@ -6,6 +6,7 @@ import Navbar from "./components/navbar";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/lib/auth";
 import {NextAuthProvider} from './providers';
+import { Analytics } from "@vercel/analytics/react"
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
