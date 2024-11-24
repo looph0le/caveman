@@ -41,6 +41,7 @@ export default async function RootLayout({
         {session ? <Navbar /> : null}
         {children}
         </NextAuthProvider>
+        <Analytics />
       </body>
     </html>
   );
