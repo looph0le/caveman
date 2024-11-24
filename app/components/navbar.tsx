@@ -3,7 +3,7 @@
 import * as React from "react"
 import { motion } from "framer-motion"
 import { Menu, Search, User } from 'lucide-react'
-
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -15,6 +15,8 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { signOut } from "next-auth/react"
+import { useSession } from "next-auth/react"
+import Image from "next/image"
 
 const navlinks = [
   { name: "Dashboard", path: "/" },
@@ -44,6 +46,9 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
+
+  // Session Information
+  const session = useSession();
 
   return (
     <motion.nav
@@ -77,12 +82,14 @@ export default function Navbar() {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon">
-                <User className="h-5 w-5" />
-                <span className="sr-only">User menu</span>
+                <Avatar>
+                  <AvatarImage src={session?.data?.user?.image!} alt="@shadcn" />
+                  <AvatarFallback>{session?.data?.user?.name?.charAt(0)}</AvatarFallback>
+                </Avatar>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>My Profile</DropdownMenuLabel>
+              <DropdownMenuLabel>{session ? session.data?.user?.name : 'My Profile'}</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>Profile</DropdownMenuItem>
               <DropdownMenuItem>Settings</DropdownMenuItem>
