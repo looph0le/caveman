@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import { PrismaClient } from "@prisma/client"
 import GoogleProvider from 'next-auth/providers/google'
+import { GoogleProfile } from "next-auth/providers/google";
 
 const prisma = new PrismaClient()
 
@@ -10,10 +11,26 @@ export const authConfig: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
+      profile(profile: GoogleProfile) {
+        return {
+          id: profile.sub,
+          name: profile.login,
+          email: profile.email,
+          email_varified: profile.email_verified,
+          image: profile.picture,
+          role: profile.role ?? "user"
+        };
+      },
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     })
   ],
+  callbacks: {
+    async session({ session, user }) {
+      session.user.role = user.role;
+      return session
+    }
+  },
   secret: process.env.NEXTAUTH_SECRET,
 };
 

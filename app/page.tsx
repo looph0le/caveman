@@ -14,8 +14,8 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen flex items-center justify-center flex-col gap-5">
-      <CardTitle className="text-2xl font-bold text-center italic text-gray-300">Be Unfazed.</CardTitle>
-      <GoogleSignInButton />
+        <h1 className="text-center text-xl italic font-bold uppercase">Be Unfazed.</h1>
+        <GoogleSignInButton />
     </div>
   );
 }

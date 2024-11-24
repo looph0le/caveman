@@ -1,5 +1,6 @@
 import ExerciseDashboard from '../components/dashboard';
-import { loginIsRequiredServer } from '@/lib/auth';
+import { authConfig, loginIsRequiredServer } from '@/lib/auth';
+import { getServerSession } from 'next-auth';
 
 export default async function Dashboard() {
   await loginIsRequiredServer();

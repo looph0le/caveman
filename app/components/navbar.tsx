@@ -14,9 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { signOut } from "next-auth/react"
-import { useSession } from "next-auth/react"
-import Image from "next/image"
+import { signOut, useSession } from "next-auth/react"
 
 const navlinks = [
   { name: "Dashboard", path: "/" },
@@ -83,7 +81,7 @@ export default function Navbar() {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon">
                 <Avatar>
-                  <AvatarImage src={session?.data?.user?.image!} alt="@shadcn" />
+                  <AvatarImage src={session?.data?.user?.image!} alt="@caveman" />
                   <AvatarFallback>{session?.data?.user?.name?.charAt(0)}</AvatarFallback>
                 </Avatar>
               </Button>

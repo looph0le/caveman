@@ -11,7 +11,7 @@ export function GoogleSignInButton() {
   return (
     <Button
       onClick={handleLogin}
-      className="bg-black text-white text-sm hover:bg-black/50 shadow-xl shadow-blue-500"
+      className="bg-black text-white text-sm hover:bg-black/50 shadow-xl shadow-blue-500/30"
     >
       <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
@@ -22,35 +22,4 @@ export function GoogleSignInButton() {
       Login with Google
     </Button>
   )
-}
-
-export function GithubSignInButton() {
-  const handleClick = () => {
-    signIn("github");
-  };
-
-  return (
-    <button
-      onClick={handleClick}
-      className="w-full flex items-center font-semibold justify-center h-14 px-6 mt-4 text-xl transition-colors duration-300 bg-white border-2 border-black text-black rounded-lg focus:shadow-outline hover:bg-slate-200"
-    >
-      <span className="ml-4">Continue with Github</span>
-    </button>
-  );
-}
-
-export function CredentialsSignInButton() {
-  const handleClick = () => {
-    signIn();
-  };
-
-  return (
-    <button
-      onClick={handleClick}
-      className="w-full flex items-center font-semibold justify-center h-14 px-6 mt-4 text-xl transition-colors duration-300 bg-white border-2 border-black text-black rounded-lg focus:shadow-outline hover:bg-slate-200"
-    >
-      {/* <Image src={githubLogo} alt="Github Logo" width={20} height={20} /> */}
-      <span className="ml-4">Continue with Email</span>
-    </button>
-  );
 }
