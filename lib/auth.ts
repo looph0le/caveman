@@ -26,7 +26,7 @@ export const authConfig: NextAuthOptions = {
       profile(profile: GoogleProfile) {
         return {
           id: profile.sub,
-          name: profile.login,
+          name: profile.name,
           email: profile.email,
           image: profile.picture,
           role: profile.role ?? "user"
