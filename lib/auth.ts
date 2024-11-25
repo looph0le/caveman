@@ -6,6 +6,18 @@ import GoogleProvider from 'next-auth/providers/google'
 import { GoogleProfile } from "next-auth/providers/google";
 
 const prisma = new PrismaClient()
+const prismaAdapter = PrismaAdapter(prisma);
+
+//@ts-ignore
+prismaAdapter.createUser = (data) => {
+  return prisma.user.create({
+    data: {
+      name: data.name as string,
+      email: data.email as string,
+      role: data.role as string
+    },
+  });
+};
 
 export const authConfig: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
