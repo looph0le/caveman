@@ -50,3 +50,11 @@ export async function loginIsRequiredServer() {
   const session = await getServerSession(authConfig);
   if (!session) return redirect("/");
 }
+
+export async function authMiddleware(){
+  const session = await getServerSession(authConfig);
+
+  if(!session) return redirect("/");
+
+  if(session.user.role != 'admin') return redirect("/dashboard");
+}
