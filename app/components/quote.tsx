@@ -1,11 +1,10 @@
-import { authConfig, authMiddleware, loginIsRequiredServer } from '@/lib/auth';
-import { getServerSession } from 'next-auth';
-import { redirect } from 'next/navigation'
-import { GoogleSignInButton } from './components/authBottons'
-import Quote from './components/quote'
+"use client"
 
+import React, { useEffect, useState } from "react";
+import { Card } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton"
 
-const quotes = [
+const motivationalQuotes = [
   { quote: "A man can’t gain something without sacrificing something in return.", author: "Fullmetal Alchemist Brotherhood" },
   { quote: "Fate only binds you if you let it.", author: "Kratos, God of War" },
   { quote: "Weakness is a choice.", author: "Anonymous" },
@@ -20,17 +19,30 @@ const quotes = [
   { quote: "Endure, and in enduring, grow strong.", author: "Hákon Jarl (Norse-inspired)" }
 ];
 
+const RandomQuote = () => {
+  const [quote, setQuote] = useState<{ quote: string; author: string } | null>(null);
 
-export default async function Home() {
-  const session = await getServerSession(authConfig);
-  if(session){
-    redirect("/dashboard");
+  useEffect(() => {
+    const randomIndex = Math.floor(Math.random() * motivationalQuotes.length);
+    setQuote(motivationalQuotes[randomIndex]);
+  }, []);
+
+  if (!quote) {
+    return <Skeleton className="m-10 h-[100px] w-[400px] rounded-lg bg-black/50" ></Skeleton>; // Optional loading state
   }
+
   return (
-    <div className="min-h-screen flex items-center justify-center flex-col gap-5">
-        <Quote/>
-        <h1 className="text-center text-xl italic font-bold uppercase">Be Unfazed.</h1>
-        <GoogleSignInButton />
+    <div>
+      <Card className=" m-10 py-5 px-5 shadow-xl shadow-red-500/20 text-gray-200" >
+        <div>
+          "{quote.quote}"
+        </div>
+        <div className="text-right text-gray-500">
+          – {quote.author}
+        </div>
+      </Card>
     </div>
   );
-}
+};
+
+export default RandomQuote;
