@@ -1,14 +1,12 @@
 import { authConfig, authMiddleware, loginIsRequiredServer } from '@/lib/auth';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation'
-import { signIn, useSession } from 'next-auth/react';
 import { GoogleSignInButton } from './components/authBottons'
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 
 
 
 export default async function Home() {
-  const session = getServerSession(authConfig);
+  const session = await getServerSession(authConfig);
   if(session){
     redirect("/dashboard");
   }
