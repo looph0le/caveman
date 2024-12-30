@@ -25,8 +25,8 @@ export function WeightTable({ weights }: WeightTableProps) {
         {weights.map((weight) => (
           <TableRow key={weight.id}>
             <TableCell className="font-medium">{weight.type}</TableCell>
-            <TableCell className="font-medium">{weight.kg}</TableCell>
-            <TableCell className="font-medium">{weight.lbs}</TableCell>
+            <TableCell className="font-medium">{weight.kg} kg</TableCell>
+            <TableCell className="font-medium">{weight.lbs} lb</TableCell>
             <TableCell className="font-medium">
               <Button
                 variant="secondary"

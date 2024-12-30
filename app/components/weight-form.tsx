@@ -7,6 +7,13 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { createWeight, updateWeight } from '../actions/weight-actions'
 import { Card } from '@/components/ui/card'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 interface WeightFormProps {
   initialData?: {
@@ -15,6 +22,14 @@ interface WeightFormProps {
     kg: number
   }
 }
+
+const weightTypes = [
+  "Dumbbells",
+  "Barbells",
+  "Kettlebells",
+  "Weight Plates",
+  "Free Weight"
+]
 
 export function WeightForm({ initialData }: WeightFormProps) {
   const [type, setType] = useState(initialData?.type || '')
@@ -28,22 +43,25 @@ export function WeightForm({ initialData }: WeightFormProps) {
     } else {
       await createWeight({ type, kg: parseFloat(kg) })
     }
-    setType('')
-    setKg('')
-    router.refresh()
+    // Do not reset `type` and `kg` here
+    router.refresh();
   }
 
   return (
     <Card className="p-5 m-2 shadow-xl shadow-green-500/20">
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <Label htmlFor="type">Weight Type</Label>
-          <Input
-            id="type"
-            value={type}
-            onChange={(e) => setType(e.target.value)}
-            required
-          />
+          <div>
+            <Label htmlFor="type">Weight Type</Label>
+            <Select value={type} onValueChange={(e) => setType(e)}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Select type" />
+              </SelectTrigger>
+              <SelectContent>
+                {weightTypes.map((a, b) => (
+                  <SelectItem key={b} value={a}>{a}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
         </div>
         <div>
           <Label htmlFor="kg">Weight (kg)</Label>
@@ -61,4 +79,3 @@ export function WeightForm({ initialData }: WeightFormProps) {
     </Card>
   )
 }
-

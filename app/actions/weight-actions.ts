@@ -12,7 +12,6 @@ export async function createWeight(data: { type: string; kg: number }) {
       lbs: parseFloat(lbs.toFixed(2)),
     },
   })
-  revalidatePath('/weights')
 }
 
 export async function updateWeight(id: string, data: { type: string; kg: number }) {
@@ -25,7 +24,6 @@ export async function updateWeight(id: string, data: { type: string; kg: number 
       lbs: parseFloat(lbs.toFixed(2)),
     },
   })
-  revalidatePath('/weights')
 }
 
 export async function deleteWeight(id: string) {

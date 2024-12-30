@@ -39,7 +39,7 @@ export default function Navbar() {
 
   React.useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20)
+      setIsScrolled(window.scrollY > 10)
     }
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
@@ -51,7 +51,7 @@ export default function Navbar() {
 
   return (
     <motion.nav
-      className={`fixed top-0 left-0 right-0 z-50 px-4 py-3 transition-all duration-200 ${isScrolled ? "bg-background/80 backdrop-blur-md shadow-md" : "bg-transparent"
+      className={`fixed top-0 left-0 right-0 z-50 px-4 py-3 transition-all duration-100 ${isScrolled ? "bg-background/80 backdrop-blur-md shadow-md" : "bg-transparent"
         }`}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
