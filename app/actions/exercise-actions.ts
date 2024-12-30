@@ -12,7 +12,7 @@ export async function createExercise(data: { name: string }) {
   revalidatePath('/admin/exercise')
 }
 
-export async function updateExercise(id: string, data: { name: string }) {
+export async function updateExercise(id: number, data: { name: string }) {
   await prisma.exercise.update({
     where: { id },
     data: {
@@ -21,7 +21,7 @@ export async function updateExercise(id: string, data: { name: string }) {
   })
 }
 
-export async function deleteExercise(id: string) {
+export async function deleteExercise(id: number) {
   await prisma.exercise.delete({ where: { id } })
   revalidatePath('/admin/exercise')
 }
