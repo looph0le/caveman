@@ -11,7 +11,7 @@ import { createExercise, updateExercise } from '../actions/exercise-actions'
 
 interface ExerciseFormProps {
   initialData?: {
-    id: string
+    id: number
     name: string
   }
 }
