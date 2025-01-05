@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { createWeight, updateWeight } from '../actions/weight-actions'
 import { Card } from '@/components/ui/card'
 import { createExercise, updateExercise } from '../actions/exercise-actions'
 

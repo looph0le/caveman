@@ -56,5 +56,5 @@ export async function authMiddleware(){
 
   if(!session) return redirect("/");
 
-  if(session.user.role != 'admin') return redirect("/dashboard");
+  if(session.user.role != 'admin') return redirect("/");
 }

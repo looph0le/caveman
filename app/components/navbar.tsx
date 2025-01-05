@@ -17,11 +17,10 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { signOut, useSession } from "next-auth/react"
 
 const navlinks = [
-  { name: "Dashboard", path: "/" },
-  { name: "Workout Plan", path: "/" },
-  { name: "Exercies", path: "/" },
-  { name: "Progress Tracker", path: "/" },
-  { name: "Settings", path: "/" },
+  { name: "Dashboard", path: "/dashboard" },
+  { name: "Workout Plan", path: "/workoutplan" },
+  { name: "Progress Tracker", path: "/tracker" },
+  { name: "Settings", path: "/settings" },
 ];
 
 const Navigation = () => {
@@ -51,11 +50,7 @@ export default function Navbar() {
 
   return (
     <motion.nav
-      className={`fixed top-0 left-0 right-0 z-50 px-4 py-3 transition-all duration-100 ${isScrolled ? "bg-background/80 backdrop-blur-md shadow-md" : "bg-transparent"
-        }`}
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ type: "spring", stiffness: 100, damping: 20 }}
+      className={`fixed top-0 left-0 right-0 z-50 px-4 py-3 transition-all duration-100 ${isScrolled ? "bg-background/80 backdrop-blur-md shadow-md" : "bg-transparent"}`}
     >
       <div className="container mx-auto flex items-center justify-between">
         <div className="flex items-center space-x-4">

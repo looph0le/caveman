@@ -1,8 +1,5 @@
-import { authConfig, authMiddleware } from '@/lib/auth';
-import { WeightForm } from '../.././components/weight-form'
-import { WeightTable } from '../../components/weight-table'
+import { authMiddleware } from '@/lib/auth';
 import { ExerciseTable } from '@/app/components/exercise-table';
-import { getWeights } from '../../actions/weight-actions'
 import { getExercise } from '@/app/actions/exercise-actions';
 import { ExerciseForm } from '@/app/components/exercise-form';
 

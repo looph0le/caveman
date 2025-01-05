@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button'
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -20,9 +19,8 @@ interface ExerciseTableProps {
 
 export function ExerciseTable({ exercise }: ExerciseTableProps ) {
   return (
-    <Card className="m-2 shadow-xl shadow-blue-500/20">
+    <Card className="m-2 p-2 shadow-xl shadow-blue-500/20">
     <Table className="">
-      <TableCaption className="p-3">A list of your recent invoices.</TableCaption>
       <TableHeader>
         <TableRow className="uppercase">
           <TableHead>Id</TableHead>
