@@ -46,7 +46,6 @@ export default function Navbar() {
 
   // Session Information
   const session = useSession();
-  console.log(session);
 
   return (
     <motion.nav
