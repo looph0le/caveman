@@ -48,37 +48,33 @@ export default function WorkoutplanCard({ exdata }) {
   const [exName, setExName] = useState('')
   const [set, setSet] = useState('')
   const [day, setDay] = useState('')
-  const [plan, setPlan] = useState<
-    {
-      wp_id: number;
-      wp_user_id: string;
-      wp_day: string;
-      wp_ex_name: string;
-      wp_sets: number;
-      wp_created_at: Date;
-    }[]
-  >([]);
+  const [plan, setPlan] = useState();
 
   const session = useSession()
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (session?.data) {
+    if (session.data) {
       await createWorkoutplan(session.data.user.id, day, exName, Number(set))
       location.reload();
     }
   }
 
   const getUserPlan = async () => {
-    if (session?.data) {
-      const userPlans = await getWorkoutPlanByUser(session.data.user.id); // Await the function call
-      setPlan(userPlans); // Update the state with the retrieved plans
+    if (session.data) {
+      const userPlans = await getWorkoutPlanByUser(session.data.user.id);
+      return userPlans;
     }
   };
 
   useEffect(() => {
-    getUserPlan();
-  }, []);
+    const fetchPlan = async () => {
+      const userPlan = await getUserPlan(); // Wait for the promise to resolve
+      setPlan(userPlan); // Update state with the resolved data
+    };
+
+    fetchPlan(); // Call the async function inside useEffect
+  }, [session?.data]); // Dependency to re-run when session.data changes
 
 
   return (
@@ -135,9 +131,7 @@ export default function WorkoutplanCard({ exdata }) {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {typeof plan !== 'undefined' ? plan
-                      .filter((plan) => plan.wp_day === small) // Filter plans based on the condition
-                      .map((plan) => (
+                    {typeof plan !== 'undefined' ? plan.filter((plan) => plan.wp_day === small).map((plan) => (
                         <TableRow key={plan.wp_id}>
                           <TableCell className="">{plan.wp_ex_name}</TableCell>
                           <TableCell className="">{plan.wp_sets}</TableCell>
