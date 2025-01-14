@@ -44,11 +44,20 @@ const days = [
   { sun: "Sunday" }
 ];
 
+type WorkoutPlan = {
+  wp_id: number;
+  wp_user_id: string;
+  wp_day: string;
+  wp_ex_name: string;
+  wp_sets: number;
+  wp_created_at: Date;
+};
+
 export default function WorkoutplanCard({ exdata }) {
   const [exName, setExName] = useState('')
   const [set, setSet] = useState('')
   const [day, setDay] = useState('')
-  const [plan, setPlan] = useState();
+  const [plan, setPlan] = useState<WorkoutPlan[] | undefined>(undefined);
 
   const session = useSession()
 
@@ -60,11 +69,11 @@ export default function WorkoutplanCard({ exdata }) {
     }
   }
 
-  const getUserPlan = async () => {
-    if (session.data) {
-      const userPlans = await getWorkoutPlanByUser(session.data.user.id);
-      return userPlans;
+  const getUserPlan = async (): Promise<WorkoutPlan[] | undefined> => {
+    if (session?.data) {
+      return await getWorkoutPlanByUser(session.data.user.id);
     }
+    return undefined;
   };
 
   useEffect(() => {
