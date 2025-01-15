@@ -32,6 +32,18 @@ import {
 import { createWorkoutplan, deleteWorkoutplan, getWorkoutPlanByUser } from '../actions/workoutplan-actions';
 import { useSession } from 'next-auth/react';
 import { useState, useEffect } from "react"
+import { MdOutlineDeleteOutline } from "react-icons/md";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
 
 const days = [
@@ -92,7 +104,7 @@ export default function WorkoutplanCard({ exdata }) {
         {days.map((day) => {
           const [small, full] = Object.entries(day)[0];
           return (
-            <Card key={small} className="shadow-xl shadow-blue-500/10">
+            <Card key={small} className="shadow-2xl shadow-blue-500/10 min-h-[600px]">
               <CardHeader>
                 <CardTitle className="uppercase tracking-wide">{full}</CardTitle>
               </CardHeader>
@@ -136,23 +148,37 @@ export default function WorkoutplanCard({ exdata }) {
                       <TableHead>Exercise</TableHead>
                       <TableHead>Sets</TableHead>
                       <TableHead></TableHead>
-                      <TableHead></TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {typeof plan !== 'undefined' ? plan.filter((plan) => plan.wp_day === small).map((plan) => (
-                        <TableRow key={plan.wp_id}>
-                          <TableCell className="">{plan.wp_ex_name}</TableCell>
-                          <TableCell className="">{plan.wp_sets}</TableCell>
-                          <TableCell className="font-bold text-red-500 text-right"
-                          ><Button
-                            onClick={async () => {
-                              await deleteWorkoutplan(plan.wp_id)
-                              location.reload()
-                            }}
-                          >Delete</Button></TableCell>
-                        </TableRow>
-                      )) :
+                      <TableRow key={plan.wp_id}>
+                        <TableCell className="">{plan.wp_ex_name}</TableCell>
+                        <TableCell className="">{plan.wp_sets}</TableCell>
+                        <TableCell className="font-bold text-red-500 text-right text-xl">
+                          <AlertDialog>
+                            <AlertDialogTrigger><MdOutlineDeleteOutline /></AlertDialogTrigger>
+                            <AlertDialogContent className="shadow-2xl shadow-red-500/50">
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Are you sure you want to remove {plan.wp_ex_name} from the plan?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  {plan.wp_ex_name} exercise will be removed from the plan, This action cannot be undone.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction
+                                  onClick={async () => {
+                                    await deleteWorkoutplan(plan.wp_id)
+                                    location.reload()
+                                  }}
+                                >Continue</AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+                        </TableCell>
+                      </TableRow>
+                    )) :
                       <TableRow>
                         <TableCell className="text-gray-500">Empty</TableCell>
                         <TableCell className="text-gray-500">Empty</TableCell>
