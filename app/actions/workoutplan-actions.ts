@@ -44,3 +44,8 @@ export async function getWorkoutPlanByUser(wp_user_id: string){
   })
 }
 
+export async function getWorkoutPlanByDay(wp_user_id: string, wp_day: string){
+  return prisma.workoutPlan.findMany({
+    where: { wp_day: wp_day, wp_user_id: wp_user_id },
+  })
+}
