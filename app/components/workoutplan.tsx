@@ -158,7 +158,7 @@ export default function WorkoutplanCard({ exdata, day }) {
       if (session.data) {
         await createWorkoutplan(session.data.user.id, data.day, data.exercise, data.sets)
         toast({
-          title: (<div className="text-green-500">Exercise added to the plan</div>),
+          title: (<div className="text-green-500">Exercise added to the plan</div>) as unknown as string,
           description: (
             <Table className="uppercase">
               <TableBody className="">
@@ -175,7 +175,7 @@ export default function WorkoutplanCard({ exdata, day }) {
       }
     } catch (error) {
       toast({
-        title: (<div className="text-red-500">Something went wrong while adding the exercise to the plan.</div>),
+        title: (<div className="text-red-500">Something went wrong while adding the exercise to the plan.</div>) as unknown as string,
         description: (
           <div>{error.message}</div>
         ),
