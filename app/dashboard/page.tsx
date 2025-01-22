@@ -14,18 +14,18 @@ import {
 
 export default async function Dashboard() {
   const session = await getServerSession(authConfig);
-  if(!session){
+  if (!session) {
     redirect("/");
   }
 
   // Get Today's workout plan
-  const weekday = ["sun","mon","tue","wed","thu","fri","sat"];
+  const weekday = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
   const d = new Date();
   let day = weekday[d.getDay()];
   const todayPlan = await getWorkoutPlanByDay(session.user.id, day);
 
   return (
-    <main className="lg:flex items-center justify-center h-screen my-[100px] lg:my-[0px]">
+    <main className="lg:flex items-center justify-center h-screen lg:my-[0px] m-3">
       <div className="grid lg:grid-cols-3 gap-3">
         <DashWorkoutPlan todayPlan={todayPlan} />
         <Card className="flex items-center min-h-[300px] shadow-xl shadow-red-500/10 lg:col-span-2">

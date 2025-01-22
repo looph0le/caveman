@@ -15,11 +15,18 @@ export default async function Workoutplan() {
     redirect("/");
   }
 
+
+  const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+
   const exercises = await getExercise();
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center text-sm">
-        <WorkoutplanCard exdata={exercises} />
-    </main>
+    <div className="flex min-h-screen flex-col items-center justify-center text-sm">
+      <div className="grid md:grid-cols-3 lg:grid-cols-4 m-5 gap-3">
+        {days.map((day, index) => (
+          < WorkoutplanCard key={index} day={day} exdata={exercises} />
+        ))}
+      </div>
+    </div>
   );
 }

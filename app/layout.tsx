@@ -5,8 +5,9 @@ import "./globals.css";
 import Navbar from "./components/navbar";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/lib/auth";
-import {NextAuthProvider} from './providers';
+import { NextAuthProvider } from './providers';
 import { Analytics } from "@vercel/analytics/react"
+import { Toaster } from "@/components/ui/toaster"
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -38,8 +39,11 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased dark`}
       >
         <NextAuthProvider>
-        {session ? <Navbar /> : null}
-        {children}
+          {session ? <Navbar /> : null}
+          <div className="my-[100px]">
+            {children}
+          </div>
+          <Toaster />
         </NextAuthProvider>
         <Analytics />
       </body>
