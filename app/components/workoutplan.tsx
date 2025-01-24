@@ -85,7 +85,7 @@ type WorkoutPlan = {
 
 const FormSchema = z.object({
   exercise: z.string({
-    required_error: "Please select a language.",
+    required_error: "Please select a Exercise.",
   }),
   day: z.string({
     required_error: "Please select day.",
@@ -123,14 +123,6 @@ export default function WorkoutplanCard({ exdata, day }) {
 
   const session = useSession()
 
-  //const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  //  e.preventDefault()
-  //  if (session.data) {
-  //    await createWorkoutplan(session.data.user.id, day, exName, Number(set))
-  //    location.reload();
-  //  }
-  //}
-  //
   const getUserPlan = async (): Promise<WorkoutPlan[] | undefined> => {
     if (session?.data) {
       return await getWorkoutPlanByUser(session.data.user.id);
@@ -153,7 +145,6 @@ export default function WorkoutplanCard({ exdata, day }) {
   })
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(data);
     try {
       if (session.data) {
         await createWorkoutplan(session.data.user.id, data.day, data.exercise, data.sets)
@@ -171,7 +162,6 @@ export default function WorkoutplanCard({ exdata, day }) {
             </Table>
           ),
         })
-        location.reload();
       }
     } catch (error) {
       toast({
@@ -265,7 +255,7 @@ export default function WorkoutplanCard({ exdata, day }) {
                   </FormItem>
                 )}
               />
-              <Button type="submit" variant="secondary" >Submit</Button>
+              <Button type="submit" variant="secondary" >Add</Button>
             </form>
           </Form>
         </CardContent>
