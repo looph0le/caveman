@@ -25,7 +25,7 @@ export default async function Dashboard() {
   const todayPlan = await getWorkoutPlanByDay(session.user.id, day);
 
   return (
-    <main className="lg:flex items-center justify-center h-screen lg:my-[0px] m-3">
+    <main className="lg:flex items-center justify-center m-3">
       <div className="grid lg:grid-cols-3 gap-3">
         <DashWorkoutPlan todayPlan={todayPlan} />
         <Card className="flex items-center min-h-[300px] shadow-xl shadow-red-500/10 lg:col-span-2">

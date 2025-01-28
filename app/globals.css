@@ -3,10 +3,21 @@
 @tailwind components;
 @tailwind utilities;
 
-
 body {
   font-family: "Roboto", serif;
   font-style: normal;
+}
+
+::-webkit-scrollbar {
+  width: 5px; /* Width of the scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: #000000 ; /* Light blue background for the track */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #222222; /* Blue-500 for the scrollbar thumb */
 }
 
 @layer base {

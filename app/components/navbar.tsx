@@ -62,6 +62,7 @@ export default function Navbar() {
             </SheetTrigger>
             <SheetContent side="left">
               <nav className="flex flex-col space-y-4">
+                <a href="/" className="text-2xl font-bold uppercase italic">caveman</a>
                 <Navigation />
               </nav>
             </SheetContent>

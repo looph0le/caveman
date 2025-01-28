@@ -116,10 +116,9 @@ const daysWithFull = {
 };
 
 export default function WorkoutplanCard({ exdata, day }) {
-  const [exName, setExName] = useState('')
-  const [set, setSet] = useState('')
   const [plan, setPlan] = useState<WorkoutPlan[] | undefined>(undefined);
   const [selectedSets, setSelectedSets] = useState(1);
+  const [submit, setSubmit] = useState(false);
 
   const session = useSession()
 
@@ -137,7 +136,8 @@ export default function WorkoutplanCard({ exdata, day }) {
     };
 
     fetchPlan(); // Call the async function inside useEffect
-  }, [session?.data]); // Dependency to re-run when session.data changes
+    setSubmit(false);
+  }, [session?.data, submit]); // Dependency to re-run when session.data changes
 
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -148,6 +148,7 @@ export default function WorkoutplanCard({ exdata, day }) {
     try {
       if (session.data) {
         await createWorkoutplan(session.data.user.id, data.day, data.exercise, data.sets)
+        setSubmit(true);
         toast({
           title: (<div className="text-green-500">Exercise added to the plan</div>) as unknown as string,
           description: (
@@ -165,7 +166,7 @@ export default function WorkoutplanCard({ exdata, day }) {
       }
     } catch (error) {
       toast({
-        title: (<div className="text-red-500">Something went wrong while adding the exercise to the plan.</div>) as unknown as string,
+        title: (<div className="text-rose-500">Something went wrong while adding the exercise to the plan.</div>) as unknown as string,
         description: (
           <div>{error.message}</div>
         ),
@@ -174,8 +175,7 @@ export default function WorkoutplanCard({ exdata, day }) {
   }
 
   return (
-    <main className="">
-      <Card className="shadow-2xl shadow-blue-500/10 min-h-[600px]">
+      <Card className="shadow-2xl shadow-blue-500/10 min-h-[600px] min-w-[350px]">
         <CardHeader>
           <CardTitle className="uppercase tracking-wide">{day}</CardTitle>
         </CardHeader>
@@ -211,11 +211,11 @@ export default function WorkoutplanCard({ exdata, day }) {
                       <PopoverContent className="w-[200px] p-0">
                         <Command>
                           <CommandInput
-                            placeholder="Search framework..."
+                            placeholder="Search exercise..."
                             className="h-9"
                           />
                           <CommandList>
-                            <CommandEmpty>No framework found.</CommandEmpty>
+                            <CommandEmpty>No exercise found.</CommandEmpty>
                             <CommandGroup>
                               {exdata.map((ex) => (
                                 <CommandItem
@@ -242,7 +242,7 @@ export default function WorkoutplanCard({ exdata, day }) {
                         </Command>
                       </PopoverContent>
                     </Popover>
-                    <FormLabel className="py-3 flex">Number of sets <div className={cn("mx-2", selectedSets >= 6 ? "text-red-400" : "text-green-500")}>{selectedSets}</div></FormLabel>
+                    <FormLabel className="py-3 flex">Number of sets <div className={cn("mx-2", selectedSets >= 6 ? "text-rose-500" : "text-green-500")}>{selectedSets}</div></FormLabel>
                     <Input type="range" id="number" name="number" min="1" max="12" step="1"
                       value={selectedSets}
                       onChange={(e) => {
@@ -273,10 +273,10 @@ export default function WorkoutplanCard({ exdata, day }) {
                 <TableRow key={plan.wp_id}>
                   <TableCell className="">{plan.wp_ex_name}</TableCell>
                   <TableCell className="">{plan.wp_sets}</TableCell>
-                  <TableCell className="font-bold text-red-500 text-right text-xl">
+                  <TableCell className="font-bold text-rose-500 text-right text-xl">
                     <AlertDialog>
                       <AlertDialogTrigger><MdOutlineDeleteOutline /></AlertDialogTrigger>
-                      <AlertDialogContent className="shadow-2xl shadow-red-500/50">
+                      <AlertDialogContent className="shadow-2xl shadow-rose-500/50">
                         <AlertDialogHeader>
                           <AlertDialogTitle>Are you sure you want to remove {plan.wp_ex_name} from the plan?</AlertDialogTitle>
                           <AlertDialogDescription>
@@ -288,7 +288,21 @@ export default function WorkoutplanCard({ exdata, day }) {
                           <AlertDialogAction
                             onClick={async () => {
                               await deleteWorkoutplan(plan.wp_id)
-                              location.reload()
+                              setSubmit(true);
+                              toast({
+                                title: (<div className="text-rose-500">Exercise removed from the plan</div>) as unknown as string,
+                                description: (
+                                  <Table className="uppercase">
+                                    <TableBody className="">
+                                      <TableRow>
+                                        <TableCell>{plan.wp_day}</TableCell>
+                                        <TableCell>{plan.wp_ex_name}</TableCell>
+                                        <TableCell>{plan.wp_sets}</TableCell>
+                                      </TableRow>
+                                    </TableBody>
+                                  </Table>
+                                ),
+                              })
                             }}
                           >Continue</AlertDialogAction>
                         </AlertDialogFooter>
@@ -306,6 +320,5 @@ export default function WorkoutplanCard({ exdata, day }) {
           </Table>
         </CardFooter>
       </Card>
-    </main>
   );
 }
