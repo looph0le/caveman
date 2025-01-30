@@ -115,30 +115,9 @@ const daysWithFull = {
   sun: "sunday",
 };
 
-export default function WorkoutplanCard({ exdata, day }) {
-  const [plan, setPlan] = useState<WorkoutPlan[] | undefined>(undefined);
+export default function WorkoutplanCard({ exdata, day, plan }) {
   const [selectedSets, setSelectedSets] = useState(1);
-  const [submit, setSubmit] = useState(false);
-
   const session = useSession()
-
-  const getUserPlan = async (): Promise<WorkoutPlan[] | undefined> => {
-    if (session?.data) {
-      return await getWorkoutPlanByUser(session.data.user.id);
-    }
-    return undefined;
-  };
-
-  useEffect(() => {
-    const fetchPlan = async () => {
-      const userPlan = await getUserPlan(); // Wait for the promise to resolve
-      setPlan(userPlan); // Update state with the resolved data
-    };
-
-    fetchPlan(); // Call the async function inside useEffect
-    setSubmit(false);
-  }, [session?.data, submit]); // Dependency to re-run when session.data changes
-
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -148,7 +127,6 @@ export default function WorkoutplanCard({ exdata, day }) {
     try {
       if (session.data) {
         await createWorkoutplan(session.data.user.id, data.day, data.exercise, data.sets)
-        setSubmit(true);
         toast({
           title: (<div className="text-green-500">Exercise added to the plan</div>) as unknown as string,
           description: (
@@ -175,150 +153,149 @@ export default function WorkoutplanCard({ exdata, day }) {
   }
 
   return (
-      <Card className="shadow-2xl shadow-blue-500/10 min-h-[600px] min-w-[350px]">
-        <CardHeader>
-          <CardTitle className="uppercase tracking-wide">{day}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-              <FormField
-                control={form.control}
-                name="exercise"
-                render={({ field }) => (
-                  <FormItem className="flex flex-col">
-                    <FormLabel>Exercises</FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant="outline"
-                            role="combobox"
-                            className={cn(
-                              "w-[200px] justify-between",
-                              !field.value && "text-muted-foreground"
-                            )}
-                          >
-                            {field.value
-                              ? exdata.find(
-                                (ex) => ex.name === field.value
-                              )?.name
-                              : "Select an exercise"}
-                            <ChevronsUpDown className="opacity-50" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-[200px] p-0">
-                        <Command>
-                          <CommandInput
-                            placeholder="Search exercise..."
-                            className="h-9"
-                          />
-                          <CommandList>
-                            <CommandEmpty>No exercise found.</CommandEmpty>
-                            <CommandGroup>
-                              {exdata.map((ex) => (
-                                <CommandItem
-                                  value={ex.name}
-                                  key={ex.id}
-                                  onSelect={() => {
-                                    form.setValue("exercise", ex.name)
-                                    form.setValue("day", daysWithSmall[day])
-                                  }}
-                                >
-                                  {ex.name}
-                                  <Check
-                                    className={cn(
-                                      "ml-auto",
-                                      ex.name === field.value
-                                        ? "opacity-100"
-                                        : "opacity-0"
-                                    )}
-                                  />
-                                </CommandItem>
-                              ))}
-                            </CommandGroup>
-                          </CommandList>
-                        </Command>
-                      </PopoverContent>
-                    </Popover>
-                    <FormLabel className="py-3 flex">Number of sets <div className={cn("mx-2", selectedSets >= 6 ? "text-rose-500" : "text-green-500")}>{selectedSets}</div></FormLabel>
-                    <Input type="range" id="number" name="number" min="1" max="12" step="1"
-                      value={selectedSets}
-                      onChange={(e) => {
-                        setSelectedSets(Number(e.target.value))
-                        form.setValue("sets", Number(e.target.value))
-                      }}
-                      className="w-full appearance-none bg-black h-[1px] rounded-lg outline-none accent-white"
-                    ></Input>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button type="submit" variant="secondary" >Add</Button>
-            </form>
-          </Form>
-        </CardContent>
-        <CardFooter>
-          <Table>
-            <TableHeader>
-              <TableRow className="uppercase">
-                <TableHead>Exercise</TableHead>
-                <TableHead>Sets</TableHead>
-                <TableHead></TableHead>
+    <Card className="shadow-2xl shadow-blue-500/10 min-h-[600px] min-w-[350px]">
+      <CardHeader>
+        <CardTitle className="uppercase tracking-wide">{day}</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+            <FormField
+              control={form.control}
+              name="exercise"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>Exercises</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant="outline"
+                          role="combobox"
+                          className={cn(
+                            "w-[200px] justify-between",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          {field.value
+                            ? exdata.find(
+                              (ex) => ex.name === field.value
+                            )?.name
+                            : "Select an exercise"}
+                          <ChevronsUpDown className="opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-[200px] p-0">
+                      <Command>
+                        <CommandInput
+                          placeholder="Search exercise..."
+                          className="h-9"
+                        />
+                        <CommandList>
+                          <CommandEmpty>No exercise found.</CommandEmpty>
+                          <CommandGroup>
+                            {exdata.map((ex) => (
+                              <CommandItem
+                                value={ex.name}
+                                key={ex.id}
+                                onSelect={() => {
+                                  form.setValue("exercise", ex.name)
+                                  form.setValue("day", daysWithSmall[day])
+                                }}
+                              >
+                                {ex.name}
+                                <Check
+                                  className={cn(
+                                    "ml-auto",
+                                    ex.name === field.value
+                                      ? "opacity-100"
+                                      : "opacity-0"
+                                  )}
+                                />
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
+                  <FormLabel className="py-3 flex">Number of sets <div className={cn("mx-2", selectedSets >= 6 ? "text-rose-500" : "text-green-500")}>{selectedSets}</div></FormLabel>
+                  <Input type="range" id="number" name="number" min="1" max="12" step="1"
+                    value={selectedSets}
+                    onChange={(e) => {
+                      setSelectedSets(Number(e.target.value))
+                      form.setValue("sets", Number(e.target.value))
+                    }}
+                    className="w-full appearance-none bg-black h-[1px] rounded-lg outline-none accent-white"
+                  ></Input>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type="submit" variant="secondary" >Add</Button>
+          </form>
+        </Form>
+      </CardContent>
+      <CardFooter>
+        <Table>
+          <TableHeader>
+            <TableRow className="uppercase">
+              <TableHead>Exercise</TableHead>
+              <TableHead>Sets</TableHead>
+              <TableHead></TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {typeof plan !== 'undefined' ? plan.filter((plan) => plan.wp_day === daysWithSmall[day]).map((plan) => (
+              <TableRow key={plan.wp_id}>
+                <TableCell className="">{plan.wp_ex_name}</TableCell>
+                <TableCell className="">{plan.wp_sets}</TableCell>
+                <TableCell className="font-bold text-rose-500 text-right text-xl">
+                  <AlertDialog>
+                    <AlertDialogTrigger><MdOutlineDeleteOutline /></AlertDialogTrigger>
+                    <AlertDialogContent className="shadow-2xl shadow-rose-500/50">
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Are you sure you want to remove {plan.wp_ex_name} from the plan?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          {plan.wp_ex_name} exercise will be removed from the plan, This action cannot be undone.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                          onClick={async () => {
+                            await deleteWorkoutplan(plan.wp_id)
+                            toast({
+                              title: (<div className="text-rose-500">Exercise removed from the plan</div>) as unknown as string,
+                              description: (
+                                <Table className="uppercase">
+                                  <TableBody className="">
+                                    <TableRow>
+                                      <TableCell>{plan.wp_day}</TableCell>
+                                      <TableCell>{plan.wp_ex_name}</TableCell>
+                                      <TableCell>{plan.wp_sets}</TableCell>
+                                    </TableRow>
+                                  </TableBody>
+                                </Table>
+                              ),
+                            })
+                          }}
+                        >Continue</AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                </TableCell>
               </TableRow>
-            </TableHeader>
-            <TableBody>
-              {typeof plan !== 'undefined' ? plan.filter((plan) => plan.wp_day === daysWithSmall[day]).map((plan) => (
-                <TableRow key={plan.wp_id}>
-                  <TableCell className="">{plan.wp_ex_name}</TableCell>
-                  <TableCell className="">{plan.wp_sets}</TableCell>
-                  <TableCell className="font-bold text-rose-500 text-right text-xl">
-                    <AlertDialog>
-                      <AlertDialogTrigger><MdOutlineDeleteOutline /></AlertDialogTrigger>
-                      <AlertDialogContent className="shadow-2xl shadow-rose-500/50">
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>Are you sure you want to remove {plan.wp_ex_name} from the plan?</AlertDialogTitle>
-                          <AlertDialogDescription>
-                            {plan.wp_ex_name} exercise will be removed from the plan, This action cannot be undone.
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>Cancel</AlertDialogCancel>
-                          <AlertDialogAction
-                            onClick={async () => {
-                              await deleteWorkoutplan(plan.wp_id)
-                              setSubmit(true);
-                              toast({
-                                title: (<div className="text-rose-500">Exercise removed from the plan</div>) as unknown as string,
-                                description: (
-                                  <Table className="uppercase">
-                                    <TableBody className="">
-                                      <TableRow>
-                                        <TableCell>{plan.wp_day}</TableCell>
-                                        <TableCell>{plan.wp_ex_name}</TableCell>
-                                        <TableCell>{plan.wp_sets}</TableCell>
-                                      </TableRow>
-                                    </TableBody>
-                                  </Table>
-                                ),
-                              })
-                            }}
-                          >Continue</AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
-                  </TableCell>
-                </TableRow>
-              )) :
-                <TableRow>
-                  <TableCell className="text-gray-500">Empty</TableCell>
-                  <TableCell className="text-gray-500">Empty</TableCell>
-                </TableRow>
-              }
-            </TableBody>
-          </Table>
-        </CardFooter>
-      </Card>
+            )) :
+              <TableRow>
+                <TableCell className="text-gray-500">Empty</TableCell>
+                <TableCell className="text-gray-500">Empty</TableCell>
+              </TableRow>
+            }
+          </TableBody>
+        </Table>
+      </CardFooter>
+    </Card>
   );
 }
