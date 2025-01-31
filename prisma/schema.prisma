@@ -68,8 +68,9 @@ model Weight {
 }
 
 model Exercise {
-  id   Int    @id @default(autoincrement())
-  name String
+  id        Int    @id @default(autoincrement())
+  name      String
+  type      String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -83,4 +84,17 @@ model WorkoutPlan {
   wp_created_at DateTime @default(now())
 
   @@map("workout_plan")
+}
+
+model TrackerRecord {
+  tr_id        Int      @id @default(autoincrement())
+  tr_user_id   String   
+  tr_ex_name   String  
+  tr_set       Int
+  tr_rep       Int
+  tr_weight    Float
+  tr_created_at DateTime @default(now())
+
+
+  @@map("tracker_record")
 }
