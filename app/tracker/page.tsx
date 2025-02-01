@@ -25,21 +25,17 @@ export default async function Trackerpage() {
   const totalExercises = todayPlan.length;
 
   const today = new Date();
-  const formatDateTime = (date: Date): string => {
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Month is 0-based, so add 1
-    const day = date.getDate().toString().padStart(2, '0');
-    const hours = date.getHours().toString().padStart(2, '0');
-    const minutes = date.getMinutes().toString().padStart(2, '0');
-    const seconds = date.getSeconds().toString().padStart(2, '0');
-    const milliseconds = date.getMilliseconds().toString().padStart(3, '0');
-    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds}`;
-  };
-  const startOfDay = new Date(today.setHours(0, 0, 0, 0));
-  const endOfDay = new Date(today.setHours(23, 59, 59, 999));
-  const startOfDayFormatted = formatDateTime(startOfDay);
-  const endOfDayFormatted = formatDateTime(endOfDay);
-  const trackerRecord = await getTrackerRecordByUserOfToday(session.user.id, startOfDayFormatted, endOfDayFormatted);
+
+  const formatDateTime = (date: Date): string => date.toISOString().replace("T", " ").replace("Z", "").slice(0, -1);
+
+  const startOfDay = new Date(today).setHours(0, 0, 0, 0);
+  const endOfDay = new Date(today).setHours(23, 59, 59, 999);
+
+  const trackerRecord = await getTrackerRecordByUserOfToday(
+    session.user.id,
+    formatDateTime(new Date(startOfDay)),
+    formatDateTime(new Date(endOfDay))
+  );
 
 
   const uniqueExercises = new Set(trackerRecord.map(item => item.tr_ex_name));
