@@ -242,7 +242,7 @@ export default function WorkoutplanCard({ exdata, day, plan }) {
           <TableHeader>
             <TableRow className="uppercase">
               <TableHead>Exercise</TableHead>
-              <TableHead>Sets</TableHead>
+              <TableHead className="text-right">Sets</TableHead>
               <TableHead></TableHead>
             </TableRow>
           </TableHeader>
@@ -250,7 +250,7 @@ export default function WorkoutplanCard({ exdata, day, plan }) {
             {typeof plan !== 'undefined' ? plan.filter((plan) => plan.wp_day === daysWithSmall[day]).map((plan) => (
               <TableRow key={plan.wp_id}>
                 <TableCell className="">{plan.wp_ex_name}</TableCell>
-                <TableCell className="">{plan.wp_sets}</TableCell>
+                <TableCell className="text-right">{plan.wp_sets}</TableCell>
                 <TableCell className="font-bold text-rose-500 text-right text-xl">
                   <AlertDialog>
                     <AlertDialogTrigger><MdOutlineDeleteOutline /></AlertDialogTrigger>

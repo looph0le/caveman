@@ -52,7 +52,7 @@ export default async function Trackerpage() {
         {exerciseDone} / {totalExercises}
       </div>
       <div className="grid md:grid-cols-3 lg:grid-cols-4 m-5 gap-4">
-        {todayPlan.map((workout, workoutIndex) => (
+        {todayPlan.length > 0 ? todayPlan.map((workout, workoutIndex) => (
           <div key={workoutIndex} className="border p-3 rounded-2xl">
             <div className="font-bold">{workout.wp_ex_name}</div>
             {Array.from({ length: workout.wp_sets }).map((_, setIndex) => (
@@ -64,7 +64,11 @@ export default async function Trackerpage() {
               />
             ))}
           </div>
-        ))}
+        )) :
+          <div>
+            <h1 className="text-gray-500 col-span-3 text-center">No workout plan for today</h1>
+          </div>
+        }
       </div>
     </div>
   );

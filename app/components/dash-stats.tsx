@@ -26,8 +26,8 @@ export default function DashStats({ todayPlan, tracker }) {
   const uniqueExercises = new Set(tracker.map(item => item.tr_ex_name));
   const exerciseDone = uniqueExercises.size;
 
-  const firstTime = new Date(tracker[0].tr_created_at).getTime();
-  const lastTime = new Date(tracker[tracker.length - 1].tr_created_at).getTime();
+  const firstTime = new Date(tracker[0] ? tracker[0].tr_created_at : '').getTime();
+  const lastTime = new Date(tracker[tracker.lenght - 1] ? tracker[tracker.length - 1].tr_created_at : '').getTime();
 
   const diffMs = lastTime - firstTime; // Convert Date objects to timestamps (milliseconds)
 
@@ -101,6 +101,11 @@ export default function DashStats({ todayPlan, tracker }) {
     return `${String(diffHours).padStart(2, "0")}:${String(diffMinutes).padStart(2, "0")}:${String(diffSeconds).padStart(2, "0")}`;
   }
 
+  let totalWorkoutDuration = "00:00:00";
+  if (tracker && tracker[0] && tracker[tracker.length - 1]) {
+    totalWorkoutDuration = getDuration(new Date(tracker[0].tr_created_at), new Date(tracker[tracker.length - 1].tr_created_at));
+  }
+
   const dataTable = processWorkoutData(tracker);
 
   return (
@@ -108,21 +113,21 @@ export default function DashStats({ todayPlan, tracker }) {
       <Card className="shadow-2xl shadow-blue-500/10 h-full max-w-[500px]">
         <CardHeader>
           <CardTitle className="tracking-wide text-gray-300">Today's Analytics</CardTitle>
-          <h1 className="uppercase italic font-bold text-center text-xl text-gray-200">{days[d.getDay()]}</h1>
+          <h1 className="uppercase italic font-bold text-center text-xl text-gray-200 m-5">{days[d.getDay()]}</h1>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-3 gap-5 uppercase font-bold italic">
+          <div className="grid grid-cols-3 gap-8 uppercase font-bold italic">
             <div className="text-center">
               <h1>Duration</h1>
-              <p className={cn("lowercase", diffHours >= 1 ? "text-green-500" : "text-rose-500")}>{diffHours}h {diffMinutes}m {diffSeconds}s</p>
+              <p className={cn("lowercase", totalWorkoutDuration != "00:00:00" ? "text-green-500" : "text-rose-500")}>{totalWorkoutDuration}</p>
             </div>
             <div className="text-center">
               <h1>Exercises</h1>
-              <p className={cn(exerciseDone == todayPlan.length ? "text-green-500" : "text-rose-500")} >{exerciseDone} / {todayPlan.length}</p>
+              <p className={cn(exerciseDone == todayPlan.length && todayPlan.length > 0 ? "text-green-500" : "text-rose-500")} >{exerciseDone} / {todayPlan.length}</p>
             </div>
             <div className="text-center">
               <h1>Sets</h1>
-              <p className={cn(tracker.length == totalSets ? "text-green-500" : "text-rose-500")}>{tracker.length} / {totalSets}</p>
+              <p className={cn(tracker.length == totalSets && totalSets > 0 ? "text-green-500" : "text-rose-500")}>{tracker.length} / {totalSets}</p>
             </div>
           </div>
           <Table className="">
@@ -134,7 +139,7 @@ export default function DashStats({ todayPlan, tracker }) {
               <TableHead className="text-right">Duration</TableHead>
             </TableHeader>
             <TableBody>
-              {dataTable.map((item, index) => (
+              {dataTable.length > 0 ? dataTable.map((item, index) => (
                 <TableRow key={index}>
                   <TableCell>{item.ex_name}</TableCell>
                   <TableCell>{item.total_sets}</TableCell>
@@ -142,7 +147,7 @@ export default function DashStats({ todayPlan, tracker }) {
                   <TableCell className="text-right">{(item.total_reps / item.total_sets).toFixed(1)}</TableCell>
                   <TableCell className="text-right">{item.duration}</TableCell>
                 </TableRow>
-              ))}
+              )) : <TableRow><TableCell colSpan={5} className="text-center text-gray-500">Seems like a rest day...</TableCell></TableRow>}
             </TableBody>
           </Table>
         </CardContent>
