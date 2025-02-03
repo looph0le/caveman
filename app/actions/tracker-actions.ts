@@ -57,3 +57,64 @@ export async function getTrackerRecordByUserOfToday(
     },
   });
 }
+
+export async function getWeeklyComparisonChartData(tr_user_id: string) {
+  const today = new Date();
+  const startOfWeek = new Date(today.setDate(today.getDate() - today.getDay()));
+  const endOfWeek = new Date(
+    today.setDate(today.getDate() - today.getDay() + 6),
+  );
+
+  const weeklyData = await prisma.trackerRecord.findMany({
+    where: {
+      tr_user_id: tr_user_id,
+      tr_created_at: {
+        gte: startOfWeek,
+        lte: endOfWeek,
+      },
+    },
+  });
+
+  const days = [
+    "sunday",
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+  ];
+
+  const weeklyDataByDay = days.map((day) => {
+    return weeklyData.filter((record) => {
+      const recordDay = new Date(record.tr_created_at).getDay();
+      return days[recordDay] === day;
+    });
+  });
+
+  const data: { day: string; duration: number }[] = [];
+  weeklyDataByDay.forEach((dayData, i) => {
+    if (dayData.length > 1) {
+      const startTime = new Date(dayData[0].tr_created_at);
+      const endTime = new Date(dayData[dayData.length - 1].tr_created_at);
+      const diffMs = Math.abs(endTime.getTime() - startTime.getTime());
+      const diffSeconds = Math.floor((diffMs / 1000) % 60);
+      const diffMinutes = Math.floor((diffMs / (1000 * 60)) % 60);
+      const diffHours = Math.floor((diffMs / (1000 * 60 * 60)) % 24);
+      // convert duration in hours decimal
+      const duration = diffHours + diffMinutes / 60 + diffSeconds / 3600;
+
+      data.push({
+        day: days[new Date(dayData[0].tr_created_at).getDay()],
+        duration,
+      });
+    } else {
+      data.push({
+        day: days[i],
+        duration: 0,
+      });
+    }
+  });
+
+  return data;
+}

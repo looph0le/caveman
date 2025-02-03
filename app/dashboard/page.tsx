@@ -4,6 +4,7 @@ import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import DashWorkoutPlan from '../components/dash-workout-plan';
 import DashStats from '../components/dash-stats';
+import { DashChart } from '../components/dash-week-chart';
 import { getWorkoutPlanByDay } from '@/app/actions/workoutplan-actions';
 import {
   Card,
@@ -14,6 +15,8 @@ import {
 } from "@/components/ui/card"
 
 import { getTrackerRecordByUserOfToday } from '../actions/tracker-actions';
+import { getWeeklyComparisonChartData } from '../actions/tracker-actions';
+
 
 export default async function Dashboard() {
   const session = await getServerSession(authConfig);
@@ -44,6 +47,8 @@ export default async function Dashboard() {
   const uniqueExercises = new Set(trackerRecord.map(item => item.tr_ex_name));
   const exerciseDone = uniqueExercises.size;
 
+  const comparsion = await getWeeklyComparisonChartData(session.user.id);
+
   return (
     <main className="lg:flex items-center justify-center m-3">
       <div className="grid lg:grid-cols-3 gap-3">
@@ -51,9 +56,11 @@ export default async function Dashboard() {
           <DashStats todayPlan={todayPlan} tracker={trackerRecord} />
         </div>
         <DashWorkoutPlan todayPlan={todayPlan} />
-        <Card className="flex items-center min-h-[300px] shadow-xl shadow-red-500/10 lg:col-span-3">
-          <h1 className="mx-auto text-gray-500">Coming Soon...</h1>
-        </Card>
+        <div className="">
+          <DashChart comparison={comparsion} />
+        </div>
+        <div className="lg:col-span-2">
+        </div>
       </div>
     </main>
   );

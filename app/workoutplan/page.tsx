@@ -21,7 +21,7 @@ export default async function Workoutplan() {
 
   return (
     <div className="flex flex-col items-center justify-center text-sm">
-      <div className="grid md:grid-cols-3 lg:grid-cols-4 m-5 gap-3">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 m-5 gap-3">
         {days.map((day, index) => (
           < WorkoutplanCard key={index} day={day} exdata={exercises} plan={userPlan} />
         ))}

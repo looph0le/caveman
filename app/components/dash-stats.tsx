@@ -110,10 +110,10 @@ export default function DashStats({ todayPlan, tracker }) {
 
   return (
     <main className="">
-      <Card className="shadow-2xl shadow-blue-500/10 h-full max-w-[500px]">
+      <Card className="shadow-2xl shadow-blue-500/10 h-full">
         <CardHeader>
           <CardTitle className="tracking-wide text-gray-300">Today's Analytics</CardTitle>
-          <h1 className="uppercase italic font-bold text-center text-xl text-gray-200 m-5">{days[d.getDay()]}</h1>
+          <h1 className="uppercase italic font-bold text-center text-xl text-gray-200 m-5 animate-pulse">{days[d.getDay()]}</h1>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-3 gap-8 uppercase font-bold italic">
