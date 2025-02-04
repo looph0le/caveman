@@ -26,10 +26,6 @@ const chartData = [
 ]
 
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "hsl(var(--chart-1))",
-  },
   mobile: {
     label: "Mobile",
     color: "hsl(var(--chart-2))",
@@ -45,7 +41,9 @@ export function DashChart({ comparison }) {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig}>
+        <ChartContainer config={chartConfig}
+          className="aspect-auto h-[250px] w-full"
+        >
           <AreaChart
             accessibilityLayer
             data={comparison}
@@ -68,19 +66,19 @@ export function DashChart({ comparison }) {
             />
             <Area
               dataKey="duration"
-              type="natural"
+              type="linear"
               fill="var(--color-mobile)"
-              fillOpacity={0.4}
+              fillOpacity={0.2}
               stroke="var(--color-mobile)"
               stackId="a"
             />
           </AreaChart>
         </ChartContainer>
-      </CardContent>
+      </CardContent >
       <CardFooter>
         <div className="flex w-full items-start gap-2 text-sm">
         </div>
       </CardFooter>
-    </Card>
+    </Card >
   )
 }

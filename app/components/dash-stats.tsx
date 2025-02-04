@@ -111,12 +111,12 @@ export default function DashStats({ todayPlan, tracker }) {
   return (
     <main className="">
       <Card className="shadow-2xl shadow-blue-500/10 h-full">
-        <CardHeader>
+        <CardHeader className="m-2">
           <CardTitle className="tracking-wide text-gray-300">Today's Analytics</CardTitle>
-          <h1 className="uppercase italic font-bold text-center text-xl text-gray-200 m-5 animate-pulse">{days[d.getDay()]}</h1>
+          <h1 className="uppercase italic font-bold text-center text-xl text-gray-200 animate-pulse">{days[d.getDay()]}</h1>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-3 gap-8 uppercase font-bold italic">
+          <div className="grid grid-cols-3 gap-8 uppercase font-bold italic p-2">
             <div className="text-center">
               <h1>Duration</h1>
               <p className={cn("lowercase", totalWorkoutDuration != "00:00:00" ? "text-green-500" : "text-rose-500")}>{totalWorkoutDuration}</p>
@@ -131,11 +131,11 @@ export default function DashStats({ todayPlan, tracker }) {
             </div>
           </div>
           <Table className="">
-            <TableHeader className="uppercase italic">
+            <TableHeader className="uppercase italic text-[12px]">
               <TableHead>Exercise</TableHead>
               <TableHead>Sets</TableHead>
               <TableHead className="text-right">Reps</TableHead>
-              <TableHead className="text-right">Avg. Reps</TableHead>
+              <TableHead className="text-right">Avg.Reps</TableHead>
               <TableHead className="text-right">Duration</TableHead>
             </TableHeader>
             <TableBody>

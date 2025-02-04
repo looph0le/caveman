@@ -56,10 +56,11 @@ export default async function Dashboard() {
           <DashStats todayPlan={todayPlan} tracker={trackerRecord} />
         </div>
         <DashWorkoutPlan todayPlan={todayPlan} />
-        <div className="">
-          <DashChart comparison={comparsion} />
+        <div>
+
         </div>
         <div className="lg:col-span-2">
+          <DashChart comparison={comparsion} />
         </div>
       </div>
     </main>
