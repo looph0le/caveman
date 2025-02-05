@@ -50,9 +50,18 @@ export async function getWorkoutplan() {
 }
 
 export async function getWorkoutPlanByUser(wp_user_id: string) {
-  return prisma.workoutPlan.findMany({
-    where: { wp_user_id: wp_user_id },
+  const workouts = await prisma.workoutPlan.findMany({
+    where: { wp_user_id },
   });
+
+  // Manually group workouts by wp_day
+  return workouts.reduce(
+    (acc, workout) => {
+      (acc[workout.wp_day] ||= []).push(workout);
+      return acc;
+    },
+    {} as Record<string, typeof workouts>,
+  );
 }
 
 export async function getWorkoutPlanByDay(wp_user_id: string, wp_day: string) {

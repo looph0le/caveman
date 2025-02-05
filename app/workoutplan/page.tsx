@@ -14,7 +14,8 @@ export default async function Workoutplan() {
     redirect("/");
   }
 
-  const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+  const days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+  const smallDay = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
 
   const exercises = await getExercise();
   const userPlan = await getWorkoutPlanByUser(session.user.id);
@@ -23,7 +24,7 @@ export default async function Workoutplan() {
     <div className="flex flex-col items-center justify-center text-sm">
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 m-5 gap-3">
         {days.map((day, index) => (
-          < WorkoutplanCard key={index} day={day} exdata={exercises} plan={userPlan} />
+          < WorkoutplanCard key={index} day={day} exdata={exercises} plan={userPlan[smallDay[index]]} />
         ))}
       </div>
     </div>

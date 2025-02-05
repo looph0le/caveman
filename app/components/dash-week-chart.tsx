@@ -59,6 +59,7 @@ export function DashChart({ comparison }) {
               axisLine={true}
               tickMargin={8}
               tickFormatter={(value) => value.slice(0, 3)}
+              className="uppercase font-bold"
             />
             <ChartTooltip
               cursor={true}
@@ -66,11 +67,12 @@ export function DashChart({ comparison }) {
             />
             <Area
               dataKey="duration"
-              type="linear"
+              type="step"
               fill="var(--color-mobile)"
-              fillOpacity={0.2}
+              fillOpacity={0.3}
               stroke="var(--color-mobile)"
               stackId="a"
+              className="uppercase font-bold"
             />
           </AreaChart>
         </ChartContainer>
