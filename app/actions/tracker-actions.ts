@@ -42,6 +42,8 @@ export async function updateTrackerRecord(
   });
 }
 
+
+// Get tracker Record by User of Date(Now)
 export async function getTrackerRecordByUserOfToday(
   tr_user_id: string,
   startOfDay: string,
@@ -51,13 +53,15 @@ export async function getTrackerRecordByUserOfToday(
     where: {
       tr_user_id: tr_user_id,
       tr_created_at: {
-        gte: new Date(startOfDay), // Greater than or equal to the start of the day
-        lte: new Date(endOfDay), // Less than or equal to the end of the day
+        gte: new Date(startOfDay),
+        lte: new Date(endOfDay),
       },
     },
   });
 }
 
+
+// Get Week Comparison Chart Data
 export async function getWeeklyComparisonChartData(tr_user_id: string) {
   const today = new Date();
   const startOfWeek = new Date(today.setDate(today.getDate() - today.getDay()));
