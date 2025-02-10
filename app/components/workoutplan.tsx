@@ -93,6 +93,9 @@ const FormSchema = z.object({
   sets: z.number({
     required_error: "Please select number of sets.",
   }),
+  ex_type: z.string({
+    required_error: "Please select type.",
+  }),
 })
 
 const daysWithSmall = {
@@ -202,6 +205,7 @@ export default function WorkoutplanCard({ exdata, day, plan }) {
                                 onSelect={() => {
                                   form.setValue("exercise", ex.name)
                                   form.setValue("day", daysWithSmall[day])
+                                  form.setValue("ex_type", ex.type)
                                 }}
                               >
                                 {ex.name}
@@ -220,15 +224,78 @@ export default function WorkoutplanCard({ exdata, day, plan }) {
                       </Command>
                     </PopoverContent>
                   </Popover>
-                  <FormLabel className="py-3 flex">Number of sets <div className={cn("mx-2", selectedSets >= 6 ? "text-rose-500" : "text-green-500")}>{selectedSets}</div></FormLabel>
-                  <Input type="range" id="number" name="number" min="1" max="12" step="1"
-                    value={selectedSets}
-                    onChange={(e) => {
-                      setSelectedSets(Number(e.target.value))
-                      form.setValue("sets", Number(e.target.value))
-                    }}
-                    className="w-full appearance-none bg-black h-[1px] rounded-lg outline-none accent-white"
-                  ></Input>
+                  {typeof form.getValues().exercise !== 'undefined' && form.getValues().ex_type === "STRENGTH" && (
+                    <>
+                      <FormLabel className="py-3 flex">
+                        Number of sets
+                        <div className={cn("mx-2", selectedSets >= 6 ? "text-rose-500" : "text-green-500")}>
+                          {selectedSets}
+                        </div>
+                      </FormLabel>
+                      <Input
+                        type="range"
+                        id="number"
+                        name="number"
+                        min="1"
+                        max="12"
+                        step="1"
+                        value={selectedSets}
+                        onChange={(e) => {
+                          setSelectedSets(Number(e.target.value));
+                          form.setValue("sets", Number(e.target.value));
+                        }}
+                        className="w-full appearance-none bg-black h-[1px] rounded-lg outline-none accent-white"
+                      />
+                    </>
+                  )}
+                  {typeof form.getValues().exercise !== 'undefined' && form.getValues().ex_type === "CARDIO" && (
+                    <>
+                      <FormLabel className="py-3 flex">
+                        Duration
+                        <div className={cn("mx-2", selectedSets > 60 ? "text-rose-500" : "text-green-500")}>
+                          {selectedSets} min
+                        </div>
+                      </FormLabel>
+                      <Input
+                        type="range"
+                        id="number"
+                        name="number"
+                        min="5"
+                        max="120"
+                        step="5"
+                        value={selectedSets}
+                        onChange={(e) => {
+                          setSelectedSets(Number(e.target.value));
+                          form.setValue("sets", Number(e.target.value));
+                        }}
+                        className="w-full appearance-none bg-black h-[1px] rounded-lg outline-none accent-white"
+                      />
+                    </>
+                  )}
+                  {typeof form.getValues().exercise !== 'undefined' && form.getValues().ex_type === "CALISTHENICS" && (
+                    <>
+                      <FormLabel className="py-3 flex">
+                        Number of sets
+                        <div className={cn("mx-2", selectedSets >= 6 ? "text-rose-500" : "text-green-500")}>
+                          {selectedSets}
+                        </div>
+                      </FormLabel>
+                      <Input
+                        type="range"
+                        id="number"
+                        name="number"
+                        min="1"
+                        max="12"
+                        step="1"
+                        value={selectedSets}
+                        onChange={(e) => {
+                          setSelectedSets(Number(e.target.value));
+                          form.setValue("sets", Number(e.target.value));
+                        }}
+                        className="w-full appearance-none bg-black h-[1px] rounded-lg outline-none accent-white"
+                      />
+                    </>
+                  )}
                   <FormMessage />
                 </FormItem>
               )}
@@ -242,7 +309,7 @@ export default function WorkoutplanCard({ exdata, day, plan }) {
           <TableHeader>
             <TableRow className="uppercase">
               <TableHead>Exercise</TableHead>
-              <TableHead className="text-right">Sets</TableHead>
+              <TableHead className="text-right"></TableHead>
               <TableHead></TableHead>
             </TableRow>
           </TableHeader>
