@@ -19,8 +19,7 @@ import { signOut, useSession } from "next-auth/react"
 const navlinks = [
   { name: "Dashboard", path: "/dashboard" },
   { name: "Workout Plan", path: "/workoutplan" },
-  { name: "Progress Tracker", path: "/tracker" },
-  { name: "Settings", path: "/settings" },
+  { name: "Progress Tracker", path: "/tracker" }
 ];
 
 const Navigation = () => {
@@ -86,8 +85,6 @@ export default function Navbar() {
               <DropdownMenuLabel>{session.data?.user?.name ? session.data?.user?.name : session.data?.user.email}</DropdownMenuLabel>
               {session.data?.user.role == 'admin' ? <a href="/admin"><DropdownMenuItem>Admin Dashboard</DropdownMenuItem></a> : null}
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuItem onClick={() => signOut()}>Sign out</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
