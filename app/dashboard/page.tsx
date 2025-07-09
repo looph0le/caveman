@@ -17,23 +17,13 @@ import {
 import { getTrackerRecordByUserOfToday } from '../actions/tracker-actions';
 import { getWeeklyComparisonChartData } from '../actions/tracker-actions';
 
-import {GoogleGenAI} from "@google/genai";
+import { GoogleGenAI } from "@google/genai";
 
 export default async function Dashboard() {
   const session = await getServerSession(authConfig);
   if (!session) {
     redirect("/");
   }
-
-  const ai = new GoogleGenAI({apiKey: process.env.GOOGLE_GENAI_API_KEY});
-  const aiResponse = await ai.models.generateContent({
-    model: "gemini-1.5-flash",
-    contents: "Give new motivational quote for gym, make them 2 liner, response with only 1 quote each time. use name of client" + session.user.name + " in the quote.",
-    config: {
-      temperature: 0.7,
-      systemInstruction: "You are a fitness coach and you are giving motivational quotes to your client.",
-    }
-  });
 
   // Get Today's workout plan
   const weekday = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
@@ -63,9 +53,6 @@ export default async function Dashboard() {
   return (
     <main className="lg:flex items-center justify-center m-3">
       <div className="grid lg:grid-cols-3 gap-3">
-        <div className="text-lg max-w-[300px] mx-auto animate-pulse my-auto italic text-cyan-500">
-          {aiResponse.text}
-        </div>
         <div className="lg:col-span-2">
           <DashStats todayPlan={todayPlan} tracker={trackerRecord} />
         </div>

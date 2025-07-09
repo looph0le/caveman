@@ -109,7 +109,7 @@ export default function DashStats({ todayPlan, tracker }) {
   const dataTable = processWorkoutData(tracker);
 
   return (
-    <main className="">
+    <main className="h-full">
       <Card className="shadow-2xl shadow-blue-500/10 h-full">
         <CardHeader className="m-2">
           <CardTitle className="tracking-wide text-gray-300">Today's Analytics</CardTitle>
