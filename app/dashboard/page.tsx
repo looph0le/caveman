@@ -17,6 +17,7 @@ import {
 import { getTrackerRecordByUserOfToday } from '../actions/tracker-actions';
 import { getWeeklyComparisonChartData } from '../actions/tracker-actions';
 
+import { GoogleGenAI } from "@google/genai";
 
 export default async function Dashboard() {
   const session = await getServerSession(authConfig);
@@ -56,9 +57,6 @@ export default async function Dashboard() {
           <DashStats todayPlan={todayPlan} tracker={trackerRecord} />
         </div>
         <DashWorkoutPlan todayPlan={todayPlan} />
-        <div>
-
-        </div>
         <div className="lg:col-span-2">
           <DashChart comparison={comparsion} />
         </div>
