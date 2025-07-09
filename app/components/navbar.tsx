@@ -15,6 +15,8 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { signOut, useSession } from "next-auth/react"
+import Link from 'next/link'
+import GlobalLoader from "./globalLoader"
 
 const navlinks = [
   { name: "Dashboard", path: "/dashboard" },
@@ -25,9 +27,10 @@ const navlinks = [
 const Navigation = () => {
   return (
     navlinks.map((a, b) => (
-      <a href={a.path} className="text-sm font-medium hover:text-primary" key={b}>
+      <Link href={a.path}
+        className="text-sm font-medium hover:text-primary" key={b}>
         {a.name}
-      </a>
+      </Link>
     ))
   )
 }
