@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { motion } from "framer-motion"
-import { Menu, Search, User } from 'lucide-react'
+import { Menu } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import {
@@ -16,27 +16,27 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { signOut, useSession } from "next-auth/react"
 import Link from 'next/link'
-import GlobalLoader from "./globalLoader"
-
-const navlinks = [
-  { name: "Dashboard", path: "/dashboard" },
-  { name: "Workout Plan", path: "/workoutplan" },
-  { name: "Progress Tracker", path: "/tracker" }
-];
-
-const Navigation = () => {
-  return (
-    navlinks.map((a, b) => (
-      <Link href={a.path}
-        className="text-sm font-medium hover:text-primary" key={b}>
-        {a.name}
-      </Link>
-    ))
-  )
-}
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = React.useState(false)
+  const pathname = usePathname();
+  const [loading, setLoading] = React.useState(false);
+  const navlinks = [
+    { name: "Dashboard", path: "/dashboard" },
+    { name: "Workout Plan", path: "/workoutplan" },
+    { name: "Progress Tracker", path: "/tracker" }
+  ];
+  const Navigation = () => {
+    return (
+      navlinks.map((a, b) => (
+        <Link href={a.path}
+          className="text-sm font-medium hover:text-primary active:text-blue-500" key={b}>
+          {a.name}
+        </Link>
+      ))
+    )
+  }
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -46,7 +46,6 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  // Session Information
   const session = useSession();
 
   return (
@@ -64,12 +63,12 @@ export default function Navbar() {
             </SheetTrigger>
             <SheetContent side="left">
               <nav className="flex flex-col space-y-4">
-                <a href="/" className="text-2xl font-bold uppercase italic">caveman</a>
+                <Link href="/dashboard" className="text-2xl font-bold uppercase italic">caveman</Link>
                 <Navigation />
               </nav>
             </SheetContent>
           </Sheet>
-          <a href="/" className="text-2xl font-bold uppercase italic">caveman</a>
+          <Link href="/dashboard" className="text-2xl font-bold uppercase italic">caveman</Link>
         </div>
         <nav className="hidden md:flex items-center space-x-6">
           <Navigation />
