@@ -42,7 +42,6 @@ export default async function RootLayout({
         <NextAuthProvider>
           {session ? <Navbar /> : null}
           <div className="my-[100px]">
-            <GlobalLoader />
             {children}
           </div>
           <Toaster />
