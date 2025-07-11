@@ -15,8 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { signOut, useSession } from "next-auth/react"
-import Link from 'next/link'
-import GlobalLoader from "./globalLoader"
+import Link from "next/link"
 
 const navlinks = [
   { name: "Dashboard", path: "/dashboard" },
@@ -27,8 +26,7 @@ const navlinks = [
 const Navigation = () => {
   return (
     navlinks.map((a, b) => (
-      <Link href={a.path}
-        className="text-sm font-medium hover:text-primary" key={b}>
+      <Link href={a.path} className="text-sm font-medium hover:text-primary" key={b}>
         {a.name}
       </Link>
     ))
@@ -64,12 +62,12 @@ export default function Navbar() {
             </SheetTrigger>
             <SheetContent side="left">
               <nav className="flex flex-col space-y-4">
-                <a href="/" className="text-2xl font-bold uppercase italic">caveman</a>
+                <Link href="/dashboard" className="text-2xl font-bold uppercase italic">caveman</Link>
                 <Navigation />
               </nav>
             </SheetContent>
           </Sheet>
-          <a href="/" className="text-2xl font-bold uppercase italic">caveman</a>
+          <Link href="/dashboard" className="text-2xl font-bold uppercase italic">caveman</Link>
         </div>
         <nav className="hidden md:flex items-center space-x-6">
           <Navigation />
@@ -86,7 +84,7 @@ export default function Navbar() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>{session.data?.user?.name ? session.data?.user?.name : session.data?.user.email}</DropdownMenuLabel>
-              {session.data?.user.role == 'admin' ? <a href="/admin"><DropdownMenuItem>Admin Dashboard</DropdownMenuItem></a> : null}
+              {session.data?.user.role == 'admin' ? <Link href="/admin"><DropdownMenuItem>Admin Dashboard</DropdownMenuItem></Link> : null}
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => signOut()}>Sign out</DropdownMenuItem>
             </DropdownMenuContent>
