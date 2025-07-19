@@ -16,14 +16,6 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-const chartData = [
-  { date: "Monday", hours: 1.86 },
-  { date: "Tuesday", hours: 3.05 },
-  { date: "Wednesday", hours: 2.37 },
-  { date: "Thurday", hours: 3.3 },
-  { date: "Friday", hours: 2.09 },
-  { date: "Saturday", hours: 2.14 },
-]
 
 const chartConfig = {
   mobile: {

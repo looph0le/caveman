@@ -122,3 +122,37 @@ export async function getWeeklyComparisonChartData(tr_user_id: string) {
 
   return data;
 }
+
+export async function getMonthlyDayWiseData(tr_user_id: string) {
+  const today = new Date();
+  const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+  const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+
+  const uniqueDays = Array.from(
+    { length: endOfMonth.getDate() },
+    (_, i) => i + 1,
+  ).map((day) => ({
+    day,
+    color: "gray", // default color
+  }));
+  // get tracker records for the month
+  const trackerRecords = await prisma.trackerRecord.findMany({
+    where: {
+      tr_user_id: tr_user_id,
+      tr_created_at: {
+        gte: startOfMonth,
+        lte: endOfMonth,
+      },
+    },
+  });
+  // map tracker records to unique days
+  trackerRecords.forEach((record) => {
+    const recordDay = new Date(record.tr_created_at).getDate();
+    const dayIndex = uniqueDays.findIndex((day) => day.day === recordDay);
+    if (dayIndex !== -1) {
+      uniqueDays[dayIndex].color = "green"; // set color to green if data is present
+    }
+  });
+  // return the unique days with color
+  return uniqueDays;
+}
