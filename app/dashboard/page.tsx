@@ -1,23 +1,15 @@
 import ExerciseDashboard from '../components/dashboard';
-import { authConfig, authMiddleware, loginIsRequiredServer } from '@/lib/auth';
+import { authConfig } from '@/lib/auth';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import DashWorkoutPlan from '../components/dash-workout-plan';
 import DashStats from '../components/dash-stats';
 import { DashChart } from '../components/dash-week-chart';
 import { getWorkoutPlanByDay } from '@/app/actions/workoutplan-actions';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-
 import { getTrackerRecordByUserOfToday } from '../actions/tracker-actions';
 import { getWeeklyComparisonChartData } from '../actions/tracker-actions';
-
-import { GoogleGenAI } from "@google/genai";
+import { getMonthlyDayWiseData } from '../actions/tracker-actions';
+import { DashMonthData } from '../components/dash-month-data';
 
 export default async function Dashboard() {
   const session = await getServerSession(authConfig);
@@ -44,12 +36,9 @@ export default async function Dashboard() {
     formatDateTime(new Date(endOfDay))
   );
 
-
-  const uniqueExercises = new Set(trackerRecord.map(item => item.tr_ex_name));
-  const exerciseDone = uniqueExercises.size;
-
   const comparsion = await getWeeklyComparisonChartData(session.user.id);
 
+  const monthData = await getMonthlyDayWiseData(session.user.id);
   return (
     <main className="lg:flex items-center justify-center m-3">
       <div className="grid lg:grid-cols-3 gap-3">
@@ -60,6 +49,7 @@ export default async function Dashboard() {
         <div className="lg:col-span-2">
           <DashChart comparison={comparsion} />
         </div>
+        <DashMonthData monthData={monthData} />
       </div>
     </main>
   );
