@@ -8,7 +8,8 @@ import { authConfig } from "@/lib/auth";
 import { NextAuthProvider } from './providers';
 import { Analytics } from "@vercel/analytics/react"
 import { Toaster } from "@/components/ui/toaster"
-import GlobalLoader from "./components/globalLoader";
+import Link from "next/link";
+import BottomNav from "./components/bottom-nav";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -43,6 +44,9 @@ export default async function RootLayout({
           {session ? <Navbar /> : null}
           <div className="my-[100px]">
             {children}
+          </div>
+          <div>
+            <BottomNav />
           </div>
           <Toaster />
         </NextAuthProvider>
