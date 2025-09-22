@@ -7,8 +7,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: 'Your all in one gym companion for progressive growth',
     start_url: '/',
     display: 'standalone',
-    background_color: '#ffffff',
-    theme_color: '#000000',
+    background_color: '#000000ff',
+    theme_color: '#000000ff',
     icons: [
       {
         src: '/android-chrome-192x192.png',
