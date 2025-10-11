@@ -1,0 +1,8 @@
+[{
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "xyz.mitansh.gym.twa",
+      "sha256_cert_fingerprints": ["61:48:C8:C8:A5:90:32:48:AA:A7:EC:BD:86:68:A7:10:10:B1:EA:53:ED:D7:64:C6:22:45:74:13:E2:CC:7D:1F"]
+    }
+}]
